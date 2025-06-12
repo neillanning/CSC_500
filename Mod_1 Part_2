@@ -1,0 +1,11 @@
+# User input
+num1 = int(input('Please enter your first number: '))
+num2 = int(input('Please enter your seconds number: '))
+
+#calculate the input numbers
+multiply = (num1 * num2)
+divide = (num1 / num2)
+
+#print the output
+print(num1, 'multiplied by', num2, '=', multiply)
+print(num1, 'divided by', num2, '=', divide)
