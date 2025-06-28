@@ -1,0 +1,27 @@
+# Prompt for current time and validate input
+while True:
+    try:
+        current_time = int(input("Enter the current time now (24-hour clock): "))
+        if 0 <= current_time <= 23:
+            break
+        else:
+            print("Error: Time must be between 0 and 23.")
+    except ValueError:
+        print("Error: Please enter a valid integer.")
+
+# Prompt for hours before alarm and validate input
+while True:
+    try:
+        wait_hours = int(input("Enter the number of hours to wait for the alarm: "))
+        if wait_hours >= 0:
+            break
+        else:
+            print("Error: Hours to wait must be non-negative.")
+    except ValueError:
+        print("Error: Please enter a valid integer.")
+
+# Calculate the alarm time using modulus to wrap around 24 hours
+alarm_time = (current_time + wait_hours) % 24
+
+# Output the result
+print(f"The alarm will go off at {alarm_time}:00 on the 24-hour clock.")
