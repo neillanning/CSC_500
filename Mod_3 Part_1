@@ -1,0 +1,25 @@
+# Prompt user for meal price and validate input
+while True:
+    try:
+        meal_price = float(input('Please enter the price for the meal: $'))
+        if meal_price <= 0:
+            print("The amount entered is not valid amount.")
+            continue
+#Set and calculate tip and tax percentages
+        else:
+            tip_percentage = 0.18
+            tip = meal_price * tip_percentage
+            
+            tax_percentage = 0.07
+            sales_tax = meal_price * tax_percentage
+            
+            total_price = meal_price + sales_tax + tip
+# Display meal price, tax, tip, and meal total           
+            print(f'Price of the meal is ${meal_price:.2f}')
+            print(f'Sales tax is ${sales_tax:.2f}')
+            print (f'Included tip is ${tip :.2f}')
+            print (f'Total Amount for the meal is ${total_price:.2f}')
+            break
+# value error if a non-integer is entered
+    except ValueError:
+        print("Please enter a valid number for the food charge.")
