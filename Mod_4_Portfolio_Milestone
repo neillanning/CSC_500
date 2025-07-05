@@ -1,0 +1,73 @@
+# Create class
+class ItemToPurchase:
+    def __init__(self):
+        self.item_name = 'none'
+        self.item_price = 0.0
+        self.item_quantity = 0
+        
+    def print_item_cost(self):
+        total_cost = self.item_price * self.item_quantity
+        print(f'{self.item_name} {self.item_quantity} @ ${self.item_price:.2f} = ${total_cost:.2f}')
+
+# Function for a valid item name
+def get_valid_name(prompt):
+    while True:
+        name = input(prompt)
+        if name.strip():
+            return name
+        print('Item name can not be blank. Please try again.')
+        
+# Function for a valid price
+def get_valid_price(prompt):
+    while True:
+        try:
+            price = float(input(prompt))
+            if price >= 0:
+                return price
+            print('Enter a valid price. Please try again.')
+        except ValueError:
+            print('Price must be a number. Please try again.')
+            
+# Function for a valid quantity
+def get_valid_quantity(prompt):
+    while True:
+        try:
+            quantity = int(input(prompt))
+            if quantity >= 0:
+                return quantity
+            print('Enter a valid quantity. Please try again.')
+        except ValueError:
+            print('Quantity must be a number. Please try again.')
+            
+# Main
+# Item 1
+print('Item 1')
+item1_name = get_valid_name('Enter the item name:\n')
+item1_price = get_valid_price('Enter the item price:\n')
+item1_quantity = get_valid_quantity('Enter the item quantity:\n')
+
+# Create first Item To Purchase object
+item1 = ItemToPurchase()
+item1.item_name = item1_name
+item1.item_price = item1_price
+item1.item_quantity = item1_quantity
+
+# Item 2
+print('\nItem 2')
+item2_name = get_valid_name('Enter the item name:\n')
+item2_price = get_valid_price('Enter the item price:\n')
+item2_quantity = get_valid_quantity('Enter the item quantity:\n')
+
+# Create second Item To Purchase object
+item2 = ItemToPurchase()
+item2.item_name = item2_name
+item2.item_price = item2_price
+item2.item_quantity = item2_quantity
+
+# Print costs for both items and total cost
+print('\nTOTAL COST')
+item1.print_item_cost()
+item2.print_item_cost()
+total = (item1.item_price * item1.item_quantity) + (item2.item_price * item2.item_quantity)
+
+print(f'Total: ${total:.2f}')
