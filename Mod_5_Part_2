@@ -1,0 +1,23 @@
+# User input of the number of books and validation of an integer
+while True:
+    try:
+        books_purchased = int(input('Enter number of books you purchased this month: '))
+        if books_purchased < 0:
+            print ('Number of books can not be a negative number. Please try again.')
+            continue
+        break
+    except ValueError:
+        print ('Please enter a valid number.')
+# Points determined by the number of books purchased
+if books_purchased <= 1:
+    points = 0
+elif books_purchased <= 3:
+    points = 5
+elif books_purchased <= 5:
+    points = 15
+elif books_purchased <= 7:
+    points = 30
+else:
+    points = 60
+# Display the number of points earned
+print (f'You have earned {points} points this month.')
