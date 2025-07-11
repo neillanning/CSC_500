@@ -1,0 +1,44 @@
+# List of months
+months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+# User input of number of years with validation
+while True:
+    try:
+        years = int(input("Enter the number of years: "))
+        if years <= 0:
+            print("Please enter a positive number of years.")
+            continue
+        break
+    except ValueError:
+        print("Please enter a valid number.")
+
+# Initialize variables
+total_months = 0
+total_rainfall = 0.0
+
+# Outer loop for years
+for year in range(1, years + 1):
+    print(f"\nYear {year}")
+
+    # Inner loop for months
+    for month_index in range(12):  
+        # Get rainfall for each month with validation
+        while True:
+            try:
+                rainfall = float(input(f"Enter inches of rainfall for {months[month_index]}: "))
+                if rainfall < 0:
+                    print("Rainfall cannot be a negative number. Please try again.")
+                    continue
+                break
+            except ValueError:
+                print("Please enter a valid number.")
+        total_rainfall += rainfall
+        total_months += 1
+# Calculate average rainfall
+average_rainfall = total_rainfall / total_months if total_months > 0 else 0
+
+# Display the results
+print ('\nResults:')
+print (f'Total number of months: {total_months}: ')
+print (f'Total inches of rainfall: {total_rainfall:.2f}')
+print (f'The average monthly rainfall for these {years} years is {average_rainfall:.2f} inches')
