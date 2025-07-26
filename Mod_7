@@ -1,0 +1,49 @@
+
+def main():
+    # Create a dictionary of course numbers and room numbers
+    room_numbers = {
+        'CSC101': '3004',
+        'CSC102': '4501',
+        'CSC103': '6755',
+        'NET110': '1244',
+        'COM241': '1411'
+    }
+
+    # Create a dictionary of course numbers and instructor names
+    instructors = {
+        'CSC101': 'Haynes',
+        'CSC102': 'Alverado',
+        'CSC103': 'Rich',
+        'NET110': 'Burke',
+        'COM241': 'Lee'
+    }
+
+    # Create a dictionary of course numbers and meeting times
+    meeting_times = {
+        'CSC101': '8:00 a.m.',
+        'CSC102': '9:00 a.m.',
+        'CSC103': '10:00 a.m.',
+        'NET110': '11:00 a.m.',
+        'COM241': '1:00 p.m.'
+    }
+    while True:
+        # Get user input of course number
+        course = input('Enter a course number for more information: or \'q\' to quit: ').upper()
+
+        # User enters 'q' to quit the program
+        if course.lower() == 'q':
+            print('\nThank you for using CSU Global\'s course information system. Goodbye!') 
+            break
+
+        # Verify the course exists and display information
+        if course in room_numbers:
+            print (f'\nCourse: {course}')
+            print (f'Room number: {room_numbers[course]}')
+            print (f'Instructor\'s name: Professor {instructors[course]}')
+            print (f'Meeting time: {meeting_times[course]}\n')
+        else:
+            print ('\nCourse not found. Please try again.\n')
+
+if __name__ == '__main__':
+    main()
+    
