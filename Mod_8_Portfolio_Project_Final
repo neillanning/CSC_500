@@ -1,0 +1,228 @@
+
+# Create ItemToPurchase class
+class ItemToPurchase:
+    def __init__(self, name='none', price=0.0, quantity=0, description=''):
+        self.item_name = name
+        self.item_price = price
+        self.item_quantity = quantity
+        self.item_description = description
+        
+    def print_item_cost(self):
+        total_cost = self.item_price * self.item_quantity
+        print(f'{self.item_name} {self.item_quantity} @ ${self.item_price:.2f} = ${total_cost:.2f}')
+    
+    def set_item_details(self, name, price, quantity, description):
+        # Validate item name
+        if not name.strip():
+            raise ValueError('Item name cannot be blank.')
+        self.item_name = name
+        
+        # Validate price
+        if not isinstance(price, (int, float)) or price < 0:
+            raise ValueError('Price must be a non-negative number.')
+        self.item_price = float(price)
+        
+        # Validate quantity
+        if not isinstance(quantity, int) or quantity < 0:
+            raise ValueError('Quantity must be a non-negative number.')
+        self.item_quantity = quantity
+        
+        # Validate description (allow empty string)
+        if not isinstance(description, str):
+            raise ValueError('Description invalid.')
+        self.item_description = description
+
+# Create ShoppingCart class
+class ShoppingCart:
+    def __init__(self, customer_name='none', current_date='01/01/2020'):
+        self.customer_name = customer_name
+        self.current_date = current_date
+        self.cart_items = []
+    
+    def add_item(self, item):
+        self.cart_items.append(item)
+    
+    def remove_item(self, item_name):
+        for item in self.cart_items:
+            if item.item_name.lower() == item_name.lower():
+                self.cart_items.remove(item)
+                return
+        print('Item not found in cart. Nothing removed.')
+    
+    def modify_item(self, item_to_modify):
+        for item in self.cart_items:
+            if item.item_name.lower() == item_to_modify.item_name.lower():
+                try:
+                    # Only update fields that are not default values
+                    name = item_to_modify.item_name if item_to_modify.item_name != 'none' else item.item_name
+                    price = item_to_modify.item_price if item_to_modify.item_price != 0 else item.item_price
+                    quantity = item_to_modify.item_quantity if item_to_modify.item_quantity != 0 else item.item_quantity
+                    description = item_to_modify.item_description if item_to_modify.item_description != '' else item.item_description
+                    item.set_item_details(name, price, quantity, description)
+                    return
+                except ValueError as e:
+                    print(f'Error modifying item: {e}')
+                    return
+        print('Item not found in cart. Nothing modified.')
+    
+    def clear_cart(self):
+        self.cart_items = []
+        print('Cart cleared successfully.')
+    
+    def get_num_items_in_cart(self):
+        total_quantity = sum(item.item_quantity for item in self.cart_items)
+        return total_quantity
+    
+    def get_cost_of_cart(self):
+        total_cost = sum(item.item_price * item.item_quantity for item in self.cart_items)
+        return total_cost
+    
+    def print_total(self):
+        print(f"\n{self.customer_name}'s Shopping Cart - {self.current_date}")
+        if not self.cart_items:
+            print('SHOPPING CART IS EMPTY')
+        else:
+            print(f'Number of Items: {self.get_num_items_in_cart()}')
+            for item in self.cart_items:
+                item.print_item_cost()
+            print(f'Total: ${self.get_cost_of_cart():.2f}')
+    
+    def print_descriptions(self):
+        print(f"\n{self.customer_name}'s Shopping Cart - {self.current_date}")
+        print('Item Descriptions')
+        if not self.cart_items:
+            print('SHOPPING CART IS EMPTY')
+        else:
+            for item in self.cart_items:
+                print(f'{item.item_name}: {item.item_description}')
+
+# Function for a valid item name
+def get_valid_name(prompt):
+    while True:
+        name = input(prompt)
+        if name.strip():
+            return name
+        print('Item name cannot be blank. Please try again.')
+
+# Function for a valid price
+def get_valid_price(prompt):
+    while True:
+        try:
+            price = float(input(prompt))
+            if price >= 0:
+                return price
+            print('Enter a valid price. Please try again.')
+        except ValueError:
+            print('Price must be a valid number. Please try again.')
+
+# Function for a valid quantity
+def get_valid_quantity(prompt):
+    while True:
+        try:
+            quantity = int(input(prompt))
+            if quantity >= 0:
+                return quantity
+            print('Enter a valid quantity. Please try again.')
+        except ValueError:
+            print('Quantity must be a valid number. Please try again.')
+
+# Function for a valid date (MM/DD/YYYY)
+def get_valid_date(prompt):
+    while True:
+        date_input = input(prompt)
+        try:
+            datetime.strptime(date_input, '%m/%d/%Y')
+            return date_input
+        except ValueError:
+            print('Date must be in MM/DD/YYYY format. Please try again.')
+
+# Function to print the menu and user choices
+def print_menu(cart):
+    menu = '''
+MENU
+a - Add item to cart
+r - Remove item from cart
+c - Change item details
+i - Output items' descriptions
+o - Output shopping cart
+x - Clear cart
+q - Quit
+'''
+    while True:
+        print(menu)
+        choice = input('Choose an option: ').lower()
+        
+        if choice == 'q':
+            break
+            
+        elif choice == 'a':
+            print('\nADD ITEM TO CART')
+            name = get_valid_name('Enter the item name:\n')
+            description = input('Enter the item description:\n')
+            price = get_valid_price('Enter the item price:\n')
+            quantity = get_valid_quantity('Enter the item quantity:\n')
+            item = ItemToPurchase()
+            try:
+                item.set_item_details(name, price, quantity, description)
+                cart.add_item(item)
+            except ValueError as e:
+                print(f'Error adding item: {e}')
+                
+        elif choice == 'r':
+            print('\nREMOVE ITEM FROM CART')
+            name = input('Enter name of item to remove:\n')
+            cart.remove_item(name)
+            
+        elif choice == 'c':
+            print('\nCHANGE ITEM DETAILS')
+            name = get_valid_name('Enter the item name to modify:\n')
+            new_name = input('Enter the new item name (or press Enter to keep unchanged):\n')
+            new_name = new_name.strip() if new_name.strip() else name
+            
+            description = input('Enter the new description (or press Enter to keep unchanged):\n')
+            
+            price_input = input('Enter the new price (or press Enter to keep unchanged):\n')
+            price = float(price_input) if price_input.strip() else 0
+            
+            quantity_input = input('Enter the new quantity (or press Enter to keep unchanged):\n')
+            quantity = int(quantity_input) if quantity_input.strip() else 0
+            
+            item = ItemToPurchase(new_name, price, quantity, description)
+            cart.modify_item(item)
+
+        elif choice == 'i':
+            print('\nOUTPUT ITEMS\' DESCRIPTIONS')
+            cart.print_descriptions()
+             
+        elif choice == 'o':
+            print('\nOUTPUT SHOPPING CART')
+            cart.print_total()
+        
+        elif choice == 'x':
+            print('\nCLEAR CART')
+            confirm = input('Are you sure you want to clear the cart? (y/n): ').lower()
+            if confirm == 'y':
+                cart.clear_cart()
+            else:
+                print('Cart not cleared.')
+        
+        else:
+            print('Invalid option. Please try again.')
+
+# Main
+def main():
+    # Get customer information
+    customer_name = input('Enter customer\'s name:\n')
+    current_date = get_valid_date('Enter current date (MM/DD/YYYY):\n')
+    
+    # Create a shopping cart
+    cart = ShoppingCart(customer_name, current_date)
+    
+    # Print initial cart information
+    print(f"\n{customer_name}'s Shopping Cart - {current_date}")
+    
+    # Show menu
+    print_menu(cart)
+
+if __name__ == '__main__':
+    main()
